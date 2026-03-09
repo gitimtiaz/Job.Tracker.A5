@@ -63,9 +63,9 @@
 
         <!-- Filter nav -->
         <div class="bg-white rounded-lg p-4 mb-6 flex gap-3">
-            <button class="btn btn-sm btn-primary px-7" id="filterAll">All</button>
-            <button class="btn btn-sm btn-outline px-7" id="filterOpen">Open</button>
-            <button class="btn btn-sm btn-outline px-7" id="filterClosed">Closed</button>
+            <button class="btn btn-sm btn-primary px-7" id="allBtn">All</button>
+            <button class="btn btn-sm btn-outline px-7" id="openBtn">Open</button>
+            <button class="btn btn-sm btn-outline px-7" id="closedBtn">Closed</button>
         </div>
 
         <!-- card count section -->
@@ -93,17 +93,23 @@
 
         <!-- cards container -->
 
-        <div id="issuesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div id="issuesContainer" class="bg-[#FBFBFB] rounded-lg p-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
 
             <!-- api will insert cards here -->
+
+            <div id="loader" class="hidden text-center p-10">
+                <span class="loading loading-spinner loading-lg"></span>
+            </div>
 
         </div>
 
 
 
+
     </section>
 
-    <script src="./js/script.js"></script>
+    <script src="./script.js"></script>
 
 </body>
+
 </html>
