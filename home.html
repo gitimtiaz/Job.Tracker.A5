@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Issues Tracker</title>
+
+    <!-- Google Font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+    </style>
+
+    <!-- font awasome  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- DaisyUI + Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Font CSS -->
+    <style>
+        * {
+            font-family: "Geist", sans-serif;
+        }
+    </style>
+</head>
+
+
+<body class="bg-gray-100">
+
+    <!-- navbar -->
+    <nav class="bg-white border-b border-gray-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+            <div class="flex items-center gap-2 font-semibold text-2xl">
+                <i class="fa-brands fa-github"></i>
+                <h2 class="font-semibold">GitHub Issues Tracker</h2>
+            </div>
+
+            <!-- search section -->
+            <div class="flex gap-3">
+                <div class="relative w-64">
+                    <i
+                        class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm z-1"></i>
+                    <input type="text" placeholder="Search issues..." id="searchInput"
+                        class="input input-bordered input-sm w-full pl-9">
+                </div>
+
+                <button class="btn btn-primary btn-sm">+ New Issue</button>
+
+            </div>
+
+        </div>
+    </nav>
+
+
+
+    <!-- card container -->
+    <section class="max-w-7xl mx-auto p-6">
+
+        <!-- Filter nav -->
+        <div class="bg-white rounded-lg p-4 mb-6 flex gap-3">
+            <button class="btn btn-sm btn-primary px-7" id="filterAll">All</button>
+            <button class="btn btn-sm btn-outline px-7" id="filterOpen">Open</button>
+            <button class="btn btn-sm btn-outline px-7" id="filterClosed">Closed</button>
+        </div>
+
+        <!-- card count section -->
+
+        <div class="bg-white rounded-lg p-6 mb-6 flex justify-between items-center">
+
+            <div class="flex items-center gap-2">
+                <div class="bg-[#ECE4FF] rounded-full w-10 h-10 flex items-center justify-center">
+                    <img src="./assets/Aperture.png" alt="">
+                </div>
+                <div>
+                    <h2 class="font-semibold text-lg"><span id="issueCount">0</span> Issues</h2>
+                    <p class="text-sm text-gray-500">Track and manage your project issues</p>
+                </div>
+            </div>
+
+            <!-- open close section -->
+            <div class="flex gap-4 text-sm">
+                <p class="flex items-center gap-1"><span class="w-2 h-2 bg-green-500 rounded-full"></span>Open</p>
+                <p class="flex items-center gap-1"><span class="w-2 h-2 bg-purple-500 rounded-full"></span>Closed</p>
+            </div>
+        </div>
+
+
+
+        <!-- cards container -->
+
+        <div id="issuesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+            <!-- api will insert cards here -->
+
+        </div>
+
+
+
+    </section>
+
+    <script src="./js/script.js"></script>
+
+</body>
+</html>
