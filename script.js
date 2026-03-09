@@ -208,7 +208,7 @@ async function openIssue(id) {
         priorityBadge.className = "px-3 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-500";
     }
 
-    // Labels
+    // Labels for cards
     let labelsHTML = "";
     if(issue.labels){
         issue.labels.forEach(label => {
@@ -225,7 +225,6 @@ async function openIssue(id) {
     document.getElementById("issueModal").showModal();
 }
 
-
 // loading circle
 function showLoader() {
     document.getElementById("loader")
@@ -237,7 +236,6 @@ function hideLoader() {
         .classList.add("hidden");
 }
 
-
 // active tap highlight
 function setActive(button) {
 
@@ -246,7 +244,6 @@ function setActive(button) {
         .forEach(btn =>
             btn.classList.remove("btn-primary")
         );
-
     button.classList.add("btn-primary");
 
 }
