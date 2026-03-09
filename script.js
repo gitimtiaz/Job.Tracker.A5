@@ -224,3 +224,29 @@ async function openIssue(id) {
     document.getElementById("modalLabels").innerHTML = labelsHTML;
     document.getElementById("issueModal").showModal();
 }
+
+
+// loading circle
+function showLoader() {
+    document.getElementById("loader")
+        .classList.remove("hidden");
+}
+
+function hideLoader() {
+    document.getElementById("loader")
+        .classList.add("hidden");
+}
+
+
+// active tap highlight
+function setActive(button) {
+
+    document
+        .querySelectorAll(".filterBtn")
+        .forEach(btn =>
+            btn.classList.remove("btn-primary")
+        );
+
+    button.classList.add("btn-primary");
+
+}
