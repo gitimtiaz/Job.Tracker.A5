@@ -17,6 +17,7 @@ if (form) {
 
 
 // issue via API
+let allIssues = [];
 const API = "https://phi-lab-server.vercel.app/api/v1/lab";
 
 async function loadIssues() {
@@ -26,7 +27,8 @@ async function loadIssues() {
     const data = await res.json();
 
     hideLoader();
-    renderIssues(data.data);
+    allIssues = data.data;
+    renderIssues(allIssues);
 }
 if(document.getElementById("issuesContainer")){
     loadIssues();
@@ -112,4 +114,139 @@ function renderIssues(issues){
         </div>`;
         container.innerHTML += card;
     });
+}
+
+//filter buttons
+const allBtn = document.getElementById("allBtn");
+const openBtn = document.getElementById("openBtn");
+const closedBtn = document.getElementById("closedBtn");
+
+function updateActiveButton(activeBtn) {
+    [allBtn, openBtn, closedBtn].forEach(btn => {
+        btn.classList.remove("btn-primary");
+        btn.classList.add("btn-outline");
+    });
+    activeBtn.classList.remove("btn-outline");
+    activeBtn.classList.add("btn-primary");
+}
+
+allBtn.addEventListener("click", () => {
+    updateActiveButton(allBtn);
+    renderIssues(allIssues);
+});
+openBtn.addEventListener("click", async () => {
+    updateActiveButton(openBtn);
+    // const res = await fetch(`${API}/issues`);
+    // const data = await res.json();
+    const openIssues = allIssues.filter(issue => issue.status === "open");
+    renderIssues(openIssues);
+});
+closedBtn.addEventListener("click", async () => {
+    updateActiveButton(closedBtn);
+    // const res = await fetch(`${API}/issues`);
+    // const data = await res.json();
+    const closedIssues = allIssues.filter(issue => issue.status === "closed");
+    renderIssues(closedIssues);
+});
+
+
+// search function 
+document
+    .getElementById("searchInput")
+    .addEventListener("input", async (e) => {
+
+        const query = e.target.value;
+
+        if (query === "") {
+            loadIssues();
+            return;
+        }
+
+        const res = await fetch(
+            `${API}/issues/search?q=${query}`
+        );
+
+        const data = await res.json();
+
+        renderIssues(data.data);
+
+    });
+
+
+// single issue page
+async function openIssue(id) {
+    const res = await fetch(`${API}/issue/${id}`);
+    const data = await res.json();
+    const issue = data.data;
+
+    document.getElementById("modalTitle").innerText = issue.title;
+    document.getElementById("modalDesc").innerText = issue.description;
+    
+    const statusBadge = document.getElementById("modalStatus");
+    if(issue.status === "open") {
+        statusBadge.className = "px-3 py-1 rounded-full text-xs font-semibold bg-green-500 text-white";
+        statusBadge.innerText = "Opened";
+    } else {
+        statusBadge.className = "px-3 py-1 rounded-full text-xs font-semibold bg-purple-500 text-white";
+        statusBadge.innerText = "Closed";
+    }
+
+    const dateStr = new Date(issue.createdAt).toLocaleDateString();
+    document.getElementById("modalMeta").innerText = `• Opened by ${issue.author} • ${dateStr}`;
+
+    document.getElementById("modalAssignee").innerText = issue.author;
+
+    const priorityBadge = document.getElementById("modalPriority");
+    const priority = issue.priority.toUpperCase();
+    priorityBadge.innerText = priority;
+    
+    if(priority === "HIGH"){
+        priorityBadge.className = "px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-500";
+    } else if(priority === "MEDIUM"){
+        priorityBadge.className = "px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-600";
+    } else {
+        priorityBadge.className = "px-3 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-500";
+    }
+
+    // Labels
+    let labelsHTML = "";
+    if(issue.labels){
+        issue.labels.forEach(label => {
+            if(label === "bug"){
+                labelsHTML += `<span class="rounded-md py-1 px-2 text-red-600 bg-red-200 text-xs font-bold uppercase"><i class="fa-solid fa-bug mr-1"></i>BUG</span>`;
+            } else if(label === "help wanted"){
+                labelsHTML += `<span class="rounded-md py-1 px-2 text-yellow-600 bg-yellow-200 text-xs font-bold uppercase"><i class="fa-solid fa-life-ring mr-1"></i>HELP WANTED</span>`;
+            } else if(label === "enhancement"){
+                labelsHTML += `<span class="rounded-md py-1 px-2 text-green-600 bg-green-200 text-xs font-bold uppercase"><i class="fa-solid fa-bolt mr-1"></i>ENHANCEMENT</span>`;
+            }
+        });
+    }
+    document.getElementById("modalLabels").innerHTML = labelsHTML;
+    document.getElementById("issueModal").showModal();
+}
+
+
+// loading circle
+function showLoader() {
+    document.getElementById("loader")
+        .classList.remove("hidden");
+}
+
+function hideLoader() {
+    document.getElementById("loader")
+        .classList.add("hidden");
+}
+
+
+// active tap highlight
+function setActive(button) {
+
+    document
+        .querySelectorAll(".filterBtn")
+        .forEach(btn =>
+            btn.classList.remove("btn-primary")
+        );
+
+    button.classList.add("btn-primary");
+
 }
